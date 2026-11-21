@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070b16">
+<title>SHAKIB SIGNAL PANEL</title>
+<style>
+:root{color-scheme:dark;--cyan:#36f5ee;--pink:#ff3c83;--green:#43f59a}
+*{box-sizing:border-box}
+body{margin:0;background:#070b16;color:#f5f7ff;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;min-height:100vh}
+#game{position:fixed;inset:0;background:#101827}
+#game iframe{width:100%;height:100%;border:0;background:#101827}
+.top{position:fixed;top:10px;left:10px;right:10px;display:flex;gap:8px;z-index:3;justify-content:space-between;pointer-events:none}
+.top a,.top button{pointer-events:auto;border:1px solid #36f5ee88;background:#091525ee;color:#fff;border-radius:12px;padding:10px 12px;text-decoration:none;font-weight:700}
+#bubble{position:fixed;z-index:5;left:14px;bottom:22px;width:62px;height:62px;border-radius:50%;border:2px solid var(--cyan);background:#091525;color:var(--cyan);font-weight:900;box-shadow:0 0 20px #36f5ee66}
+#panel{position:fixed;z-index:4;left:50%;top:50%;transform:translate(-50%,-50%);width:min(330px,calc(100vw - 28px));padding:18px;border:1px solid var(--cyan);border-radius:18px;background:#080e1df2;box-shadow:0 12px 45px #000b,0 0 22px #36f5ee33}
+h1{font-size:18px;text-align:center;color:var(--cyan);margin:0 0 14px;letter-spacing:1px}
+p{line-height:1.5;color:#cbd5e1;font-size:14px}
+input{width:100%;padding:13px;border:1px solid #36f5ee88;border-radius:10px;background:#030712;color:white;font-size:16px;margin:8px 0}
+button.action{width:100%;padding:12px;border:0;border-radius:10px;background:linear-gradient(100deg,#36f5ee,#3188ff);color:#04101a;font-weight:900;font-size:15px;margin-top:8px}
+button.secondary{width:100%;padding:11px;border:1px solid #36f5ee66;border-radius:10px;background:#101c30;color:white;font-weight:700;margin-top:8px}
+.small{font-size:12px;color:#94a3b8}
+#dashboard{display:none}
+.status{padding:10px;border-radius:10px;background:#111d31;margin:10px 0;font-size:14px}
+#dragbar{height:10px;width:56px;background:#526176;border-radius:20px;margin:0 auto 12px}
+a{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div id="game">
+  <iframe id="gameFrame" title="Game website" src="https://hgnice1.com/#/register?invitationCode=547411733631" allow="fullscreen"></iframe>
+</div>
+<div class="top">
+  <a href="https://hgnice1.com/#/register?invitationCode=547411733631" target="_blank" rel="noopener">গেম আলাদা করে খুলুন ↗</a>
+  <button id="showPanel" type="button">প্যানেল</button>
+</div>
+<button id="bubble" type="button" aria-label="প্যানেল খুলুন">SH</button>
+<section id="panel" aria-live="polite">
+  <div id="dragbar"></div>
+  <div id="login">
+    <h1>SHAKIB SIGNAL PANEL</h1>
+    <p>প্যানেল চালু করতে পাসওয়ার্ড দিন।</p>
+    <input id="password" type="password" placeholder="পাসওয়ার্ড" autocomplete="off">
+    <button class="action" id="loginBtn" type="button">START</button>
+    <button class="secondary" id="telegram" type="button">TELEGRAM</button>
+    <p class="small">গেম সাইটটি iframe-এ না খুললে উপরের “গেম আলাদা করে খুলুন” চাপুন।</p>
+    <p id="error" class="small" role="alert"></p>
+  </div>
+  <div id="dashboard">
+    <h1>SHAKIB SIGNAL PANEL</h1>
+    <div class="status">অবস্থা: <strong id="state">চালু</strong></div>
+    <div class="status">৩০ সেকেন্ড কাউন্টডাউন: <strong id="timer">৩০</strong>s</div>
+    <div class="status">সিগন্যাল: <strong>WAIT</strong></div>
+    <p class="small">লাইভ ফলাফল যাচাই করা যাচ্ছে না। তাই ভুয়া BIG/SMALL বা জয়ের হিসাব দেখানো হচ্ছে না। কোনো সিগন্যাল নিশ্চিত বা ১০০% নির্ভুল নয়।</p>
+    <button class="secondary" id="openGame" type="button">গেম আলাদা করে খুলুন</button>
+    <button class="secondary" id="hide" type="button">প্যানেল বন্ধ করুন</button>
+  </div>
+</section>
+<script>
+(() => {
+  const panel=document.getElementById('panel');
+  const bubble=document.getElementById('bubble');
+  const show=document.getElementById('showPanel');
+  const login=document.getElementById('login');
+  const dashboard=document.getElementById('dashboard');
+  const pass=document.getElementById('password');
+  const error=document.getElementById('error');
+  const gameUrl='https://hgnice1.com/#/register?invitationCode=547411733631';
+  const openGame=()=>window.open(gameUrl,'_blank','noopener');
+  function toggle(){panel.style.display=panel.style.display==='none'?'block':'none'}
+  bubble.addEventListener('click',toggle);
+  show.addEventListener('click',()=>panel.style.display='block');
+  document.getElementById('hide').addEventListener('click',()=>panel.style.display='none');
+  document.getElementById('openGame').addEventListener('click',openGame);
+  document.getElementById('telegram').addEventListener('click',()=>window.open('https://t.me/SSB_TEAM_SIGNAL','_blank','noopener'));
+  function start(){
+    if(pass.value.trim()!=='lrc-1230'){error.textContent='পাসওয়ার্ড সঠিক নয়।';return}
+    login.style.display='none';dashboard.style.display='block';error.textContent='';
+  }
+  document.getElementById('loginBtn').addEventListener('click',start);
+  pass.addEventListener('keydown',e=>{if(e.key==='Enter')start()});
+  let dragging=false,dx=0,dy=0;
+  const bar=document.getElementById('dragbar');
+  bar.addEventListener('pointerdown',e=>{dragging=true;const r=panel.getBoundingClientRect();dx=e.clientX-r.left;dy=e.clientY-r.top;bar.setPointerCapture(e.pointerId)});
+  bar.addEventListener('pointermove',e=>{if(!dragging)return;panel.style.left=Math.max(8,Math.min(innerWidth-panel.offsetWidth-8,e.clientX-dx))+'px';panel.style.top=Math.max(8,Math.min(innerHeight-panel.offsetHeight-8,e.clientY-dy))+'px';panel.style.transform='none'});
+  bar.addEventListener('pointerup',()=>dragging=false);
+  function tick(){const d=new Date();document.getElementById('timer').textContent=String(30-(Math.floor(Date.now()/1000)%30)).padStart(2,'0')}
+  tick();setInterval(tick,250);
+})();
+</script>
+</body>
+</html>
